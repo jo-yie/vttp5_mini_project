@@ -15,6 +15,11 @@ public class UserLogin {
     @Size(min = 5, max = 20, message = "Password must be between 5 to 20 characters long")
     @Pattern(regexp = "^[a-zA-Z0-9]+$", message = "Password must contain only alphanumeric characters and no spaces")
     private String password;
+
+    private String spotifyUsername; 
+    private String accessToken; 
+    private String refreshToken; 
+    private long tokenExpiry; 
     
     public UserLogin() {
     }
@@ -22,6 +27,17 @@ public class UserLogin {
     public UserLogin(String username, String password) {
         this.username = username;
         this.password = password;
+    }
+
+    public UserLogin(
+            String username, String password,
+            String spotifyUsername, String accessToken, String refreshToken, Long tokenExpiry) {
+        this.username = username;
+        this.password = password;
+        this.spotifyUsername = spotifyUsername;
+        this.accessToken = accessToken;
+        this.refreshToken = refreshToken;
+        this.tokenExpiry = tokenExpiry;
     }
 
     public String getUsername() {
@@ -38,6 +54,38 @@ public class UserLogin {
 
     public void setPassword(String password) {
         this.password = password;
-    } 
+    }
+
+    public String getSpotifyUsername() {
+        return spotifyUsername;
+    }
+
+    public void setSpotifyUsername(String spotifyUsername) {
+        this.spotifyUsername = spotifyUsername;
+    }
+
+    public String getAccessToken() {
+        return accessToken;
+    }
+
+    public void setAccessToken(String accessToken) {
+        this.accessToken = accessToken;
+    }
+
+    public String getRefreshToken() {
+        return refreshToken;
+    }
+
+    public void setRefreshToken(String refreshToken) {
+        this.refreshToken = refreshToken;
+    }
+
+    public long getTokenExpiry() {
+        return tokenExpiry;
+    }
+
+    public void setTokenExpiry(Long tokenExpiry) {
+        this.tokenExpiry = tokenExpiry;
+    }
     
 }

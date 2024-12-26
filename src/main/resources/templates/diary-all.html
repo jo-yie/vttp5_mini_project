@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Diary Entries</title>
+</head>
+<body>
+    
+    <h1>diary-all.html</h1>
+
+    <div>
+        <strong th:text="${userLogin.username}"></strong>'s Diary Entries
+    </div>
+
+    <div> 
+        <a th:href="@{/diary/create}">Create a Diary Entry</a>
+    </div>
+
+    <table> 
+        <thead>
+            <tr>
+                <th>Diary Text</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="diaryEntry : ${diaryEntries}">
+                <td th:text="${diaryEntry.diaryText}"></td>
+            </tr>
+        </tbody>
+
+    </table>
+
+</body>
+</html>

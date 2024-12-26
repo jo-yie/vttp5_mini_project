@@ -33,12 +33,19 @@ public class AppRepo {
 
     }
 
-    // create user 
+    // create user / update user
     // insert username + password into redis 
     public void saveUserToRedis(String username, String userData) {
 
         redisTemplate.opsForHash().put("users", username, userData);
 
     }
+
+
+    // SPOTIFY INTEGRATION
+
+    // store new UserLogin to Redis  
+
+
     
 }

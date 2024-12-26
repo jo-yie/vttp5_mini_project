@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Diary Entry</title>
+</head>
+<body>
+
+    <h1>diary-create.html</h1>
+
+    <form method="POST" th:action="@{/diary/created}" th:object="${diaryEntry}">
+
+        <div>
+            <label for="diaryText">Diary Text</label>
+            <textarea rows="10" th:field="*{diaryText}" placeholder="Diary Text"></textarea>
+            <!-- <input type="text" name="username" th:field="*{username}" placeholder="Name"> -->
+        </div>
+
+        <!-- <div th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></div> -->
+
+        <button type="submit">Submit Diary Entry</button>
+
+        Warning: diary entry cannot be changed 
+
+    </form>
+    
+</body>
+</html>

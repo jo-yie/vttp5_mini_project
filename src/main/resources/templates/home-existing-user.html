@@ -3,19 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
+    <title>Home Existing User</title>
 </head>
 <body>
     
-    <h1>home.html</h1>
+    <h1>home-existing-user.html</h1>
 
     <p>dis is home page to show all entries</p>
+    <p>show if connected to spotify</p>
 
     <p>
         Username: <strong th:text="${userLogin.username}"></strong>
         <br/>
         Password: <strong th:text="${userLogin.password}"></strong>
     </p>
+
+    <a th:href="@{/connect-spotify}">Connect to Spotify</a>
 
 </body>
 </html>

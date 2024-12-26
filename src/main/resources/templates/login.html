@@ -9,17 +9,17 @@
 
     <h1>login.html</h1>
     
-    <form method="POST" th:action="@{/home}" th:object="${userLogin}">
+    <form method="POST" th:action="@{/home-existing-user}" th:object="${userLogin}">
 
         <div>
-            <label for "username">Username</label>
+            <label for="username">Username</label>
             <input type="text" name="username" th:field="*{username}" placeholder="Name">
         </div>
 
         <div th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></div>
 
         <div>
-            <label for "password">Password</label>
+            <label for="password">Password</label>
             <input type="password" name="password" th:field="*{password}" placeholder="Password">
         </div>
 

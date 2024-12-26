@@ -7,6 +7,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -46,7 +47,7 @@ public class AppController {
 
     }
 
-    @PostMapping("/home")
+    @PostMapping("/home-existing-user")
     public String getHomePage(@Valid @ModelAttribute UserLogin userLogin, BindingResult bindingResult, Model model, HttpSession session) {
 
         if (bindingResult.hasErrors()) {
@@ -73,11 +74,11 @@ public class AppController {
         // session.setAttribute
         session.setAttribute("currentUser", userLogin);
 
-        return "home";
+        return "home-existing-user";
 
     }
 
-    @PostMapping("/connect-spotify")
+    @PostMapping("/home-new-user")
     public String connectSpotify(@Valid @ModelAttribute UserLogin userLogin, BindingResult bindingResult, Model model, HttpSession session) {
 
         if (bindingResult.hasErrors()) {
@@ -101,7 +102,67 @@ public class AppController {
         // session.setAttribute
         session.setAttribute("currentUser", userLogin);
 
-        return "connect-spotify";
+        // TODO add button to connect to spotify 
+
+        return "home-new-user";
+
+    }
+
+
+
+    // SPOTIFY INTEGRATION
+
+    @GetMapping("/connect-spotify")
+    public String connectToSpotify(HttpSession session) {
+
+        String authorizationUrl = appService.getAuthorizationUrl();
+
+        try { 
+            return "redirect:" + authorizationUrl;
+
+        } 
+        catch (Exception e) {
+            return e.getMessage();
+
+        }
+
+    }
+
+    @GetMapping("/callback")
+    public String getCallbackPage(@RequestParam(required = false) String code, 
+                                    @RequestParam(required = false) String error, 
+                                    Model model, HttpSession session) { 
+
+        UserLogin userLogin = (UserLogin) session.getAttribute("currentUser");
+        model.addAttribute("userLogin", userLogin);
+
+        if (error != null) {
+
+            model.addAttribute("error", error);
+            
+            // TODO create page 
+            // redirect to spotify login 
+            return "callback-failure";
+
+        } else {
+
+            try { 
+
+                // authenticate using code 
+                appService.authenticateAndStoreToken(code, userLogin);
+                model.addAttribute("success", userLogin);
+    
+            }
+    
+            catch (Exception e) { 
+    
+                model.addAttribute("error", e.getMessage());
+    
+            }
+
+        }
+
+        return "callback";
 
     }
 
