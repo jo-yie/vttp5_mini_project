@@ -108,6 +108,15 @@ public class AppController {
 
     }
 
+    @GetMapping("/logout")
+    public String logout(HttpSession session) { 
+
+        // invalidate session to log user out 
+        session.invalidate();
+
+        return "logout";
+
+    }
 
 
     // SPOTIFY INTEGRATION
@@ -115,17 +124,30 @@ public class AppController {
     @GetMapping("/connect-spotify")
     public String connectToSpotify(HttpSession session) {
 
-        String authorizationUrl = appService.getAuthorizationUrl();
+        UserLogin userLogin = (UserLogin) session.getAttribute("currentUser");
 
-        try { 
-            return "redirect:" + authorizationUrl;
+        if (userLogin == null) { 
 
+            // TODO
+            return "not-logged-in";
         } 
-        catch (Exception e) {
-            return e.getMessage();
+        
+        else { 
+
+            String authorizationUrl = appService.getAuthorizationUrl();
+
+            try { 
+                return "redirect:" + authorizationUrl;
+
+            } 
+            catch (Exception e) {
+                return e.getMessage();
+
+            }
 
         }
 
+        
     }
 
     @GetMapping("/callback")

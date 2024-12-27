@@ -15,9 +15,9 @@ public class DiaryRepo {
     RedisTemplate<String, String> redisTemplate; 
 
     // save diary entry into redis in "<username>" hashmap 
-    public void saveDiaryEntryToRedis(String username, String diaryText) {
+    public void saveDiaryEntryToRedis(String username, String id, String diaryEntryData) {
 
-        redisTemplate.opsForHash().put(username, "diaryText", diaryText);
+        redisTemplate.opsForHash().put(username, id, diaryEntryData);
 
     }
 

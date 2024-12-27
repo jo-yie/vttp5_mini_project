@@ -44,7 +44,12 @@ public class AppRepo {
 
     // SPOTIFY INTEGRATION
 
-    // store new UserLogin to Redis  
+    // get access token for user 
+    public String getAccessToken(String username) { 
+
+        return (String) redisTemplate.opsForHash().get("users", username);
+
+    }
 
 
     

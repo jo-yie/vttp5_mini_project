@@ -1,6 +1,7 @@
 package vttp5_mini_project.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,9 +36,25 @@ public class DiaryController {
 
     // create new diary entry
     @GetMapping("/create")
-    public String getCreateEntry(Model model) {
+    public String getCreateEntry(HttpSession session, Model model) {
 
+        // UserLogin object to get username
+        UserLogin userLogin = (UserLogin) session.getAttribute("currentUser");
+        String username = userLogin.getUsername(); 
+
+        // get recently played song 
+        String accessToken = diaryService.getAccessToken(username);
+        String recentlyPlayedSong = diaryService.getRecentlyPlayedSong(accessToken);
+        // model.addAttribute("recentlyPlayedSong", recentlyPlayedSong);
+
+        System.out.println("testing in get mapping /create");
+        System.out.println(recentlyPlayedSong);
+
+        // empty DiaryEntry object
         DiaryEntry diaryEntry = new DiaryEntry(); 
+
+        // set recently played song 
+        diaryEntry.setRecentlyPlayedSong(recentlyPlayedSong);
         model.addAttribute("diaryEntry", diaryEntry);
 
         return "diary-create";
@@ -46,6 +63,12 @@ public class DiaryController {
 
     @PostMapping("/created")
     public String postDiaryEntry(@ModelAttribute DiaryEntry diaryEntry, HttpSession session, Model model) {
+
+        System.out.println("testing");
+        System.out.println(diaryEntry.getId());
+        System.out.println(diaryEntry.getDate());
+        System.out.println(diaryEntry.getDiaryText());
+        System.out.println(diaryEntry.getRecentlyPlayedSong());
 
         UserLogin userLogin = (UserLogin) session.getAttribute("currentUser");
 

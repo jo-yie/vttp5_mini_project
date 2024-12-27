@@ -9,7 +9,16 @@
 
     <h1>diary-create.html</h1>
 
+    <div>
+        Id: <strong th:text="${diaryEntry.id}"></strong>
+        Date: <strong th:text="${diaryEntry.date}"></strong>
+        Recently played song: <strong th:text="${diaryEntry.recentlyPlayedSong}"></strong>
+    </div>
+
     <form method="POST" th:action="@{/diary/created}" th:object="${diaryEntry}">
+
+        <!-- Hidden field for recentlyPlayedSong -->
+        <input type="hidden" th:field="*{recentlyPlayedSong}" />
 
         <div>
             <label for="diaryText">Diary Text</label>
@@ -20,8 +29,6 @@
         <!-- <div th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></div> -->
 
         <button type="submit">Submit Diary Entry</button>
-
-        Warning: diary entry cannot be changed 
 
     </form>
     
