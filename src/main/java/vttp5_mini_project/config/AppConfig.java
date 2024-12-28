@@ -1,4 +1,4 @@
-package vttp5_mini_project;
+package vttp5_mini_project.config;
 
 import java.util.logging.Logger;
 

@@ -116,28 +116,16 @@ public class AppController {
     // SPOTIFY INTEGRATION
 
     @GetMapping("/connect-spotify")
-    public String connectToSpotify(HttpSession session) {
+    public String connectToSpotify() {
 
-        UserLogin userLogin = (UserLogin) session.getAttribute("currentUser");
+        String authorizationUrl = appService.getAuthorizationUrl();
 
-        if (userLogin == null) { 
+        try { 
+            return "redirect:" + authorizationUrl;
 
-            // TODO
-            return "not-logged-in";
         } 
-        
-        else { 
-
-            String authorizationUrl = appService.getAuthorizationUrl();
-
-            try { 
-                return "redirect:" + authorizationUrl;
-
-            } 
-            catch (Exception e) {
-                return e.getMessage();
-
-            }
+        catch (Exception e) {
+            return e.getMessage();
 
         }
 

@@ -134,7 +134,6 @@ public class AppService {
     }
 
     // authenticate and store token 
-    // TODO 
     public void authenticateAndStoreToken(String code, UserLogin userLogin) {
 
         ResponseEntity<String> response = exchangeAuthorizationCode(code);
@@ -190,7 +189,6 @@ public class AppService {
         return jObject.toString(); 
 
     }
-
 
     // exchange auth code for access and refresh tokens 
     public ResponseEntity<String> exchangeAuthorizationCode(String code) {

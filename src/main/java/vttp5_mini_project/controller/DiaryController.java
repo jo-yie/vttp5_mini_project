@@ -48,9 +48,6 @@ public class DiaryController {
         String accessToken = diaryService.getAccessToken(username);
         String recentlyPlayedSong = diaryService.getRecentlyPlayedSong(accessToken);
         String recentlyPlayedSongImage = diaryService.getRecentlyPlayedSongImage(accessToken);
-        // System.out.println(recentlyPlayedSongImage);
-
-        // TODO album art 
 
         // empty DiaryEntry object
         DiaryEntry diaryEntry = new DiaryEntry(); 
@@ -105,7 +102,7 @@ public class DiaryController {
         if (diaryEntry == null) {
 
             model.addAttribute("date", date);
-            return "diary-error"; //TODO
+            return "diary-error"; 
 
         }
 

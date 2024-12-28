@@ -1,7 +1,6 @@
 package vttp5_mini_project.service;
 
 import java.io.StringReader;
-import java.sql.Date;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -106,16 +105,29 @@ public class DiaryService {
     }
 
 
+
     // SPOTIFY IMPLEMENTATION
 
     @Autowired
     AppRepo appRepo;
+
+    @Value("${spotify.client.id}")
+    private String clientId; 
+
+    @Value("${spotify.client.secret}")
+    private String clientSecret; 
+
+    @Value("${spotify.token.url}")
+    private String tokenUrl; 
 
     @Value("${spotify.recently.played.url}")
     String recentlyPlayedUrl;
 
     // get recently played song 
     public String getRecentlyPlayedSong(String accessToken) { 
+
+        // TODO get new access token before making call 
+
 
         RestTemplate restTemplate = new RestTemplate(); 
 
@@ -129,10 +141,11 @@ public class DiaryService {
         JSONObject jsonResponse = new JSONObject(response.getBody());
         JSONArray jsonItemsArray = jsonResponse.getJSONArray("items");
 
+        // no songs found
         if (jsonItemsArray.isEmpty()) { 
 
-            // no songs found 
-            // TODO
+            // TODO unchecked if works
+            return "No recently played song";
 
         }
 
@@ -144,6 +157,18 @@ public class DiaryService {
         return songName;
 
     }
+
+    // TODO
+    // // helper method 
+    // // get new access token 
+    // private void getNewAccessToken(String username) { 
+
+    //     RestTemplate restTemplate = new RestTemplate(); 
+
+    //     HttpHeaders headers = new HttpHeaders(); 
+    //     headers.set("Authorization", "Basic " + )
+
+    // }
 
     // get recently played song cover art
     public String getRecentlyPlayedSongImage(String accessToken) { 
@@ -160,10 +185,11 @@ public class DiaryService {
         JSONObject jsonResponse = new JSONObject(response.getBody());
         JSONArray jsonItemsArray = jsonResponse.getJSONArray("items");
 
+        // no songs found
         if (jsonItemsArray.isEmpty()) { 
 
-            // no songs found 
-            // TODO
+            // TODO unchecked if works
+            return "https://onlinepngtools.com/images/examples-onlinepngtools/64-megapixels.png";
 
         }
 
@@ -179,7 +205,7 @@ public class DiaryService {
 
     }
 
-    // get access token 
+    // get access token from redis 
     public String getAccessToken(String username) {
 
         String userData = appRepo.getUserDataRedis(username);
@@ -232,8 +258,6 @@ public class DiaryService {
         }
 
         return null;
-
-        // TODO entry at this date doesn't exist 
 
     }
 
