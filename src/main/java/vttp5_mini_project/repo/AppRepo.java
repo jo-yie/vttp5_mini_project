@@ -50,7 +50,5 @@ public class AppRepo {
         return (String) redisTemplate.opsForHash().get("users", username);
 
     }
-
-
     
 }

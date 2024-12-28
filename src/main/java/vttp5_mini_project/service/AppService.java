@@ -8,6 +8,7 @@ import org.apache.catalina.connector.Response;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -251,5 +252,37 @@ public class AppService {
     // TODO get new token 
 
     
+
+
+    // RESTCONTROLLER service method 
+    public UserLogin getUserDetails(String username) {
+
+        String userDetails = appRepo.getUserDataRedis(username);
+        UserLogin userLogin = newJsonStringToPOJO(userDetails);
+        
+        return userLogin;
+
+    }
+    
+    // helper method 
+    // JSON formatted string --> UserLogin POJO 
+    private UserLogin newJsonStringToPOJO(String userData) {
+
+        StringReader sr = new StringReader(userData);
+        JsonReader jr = Json.createReader(sr);
+        JsonObject jo = jr.readObject();
+
+        UserLogin userLogin = new UserLogin(
+            jo.getString("username"),
+            jo.getString("password"),
+            jo.getString("spotifyUsername"),
+            jo.getString("accessToken"),
+            jo.getString("refreshToken"),
+            Long.valueOf(jo.getString("tokenExpiry"))
+        );
+
+        return userLogin;
+
+    }
     
 }
