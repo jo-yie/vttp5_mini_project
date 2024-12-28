@@ -3,13 +3,18 @@ package vttp5_mini_project.model;
 import java.time.Instant;
 import java.util.UUID;
 
+import jakarta.validation.constraints.NotEmpty;
+
 public class DiaryEntry {
     
     private String id; 
     private long date; 
+
+    @NotEmpty(message = "Diary entry is mandatory")
     private String diaryText;
+
     private String recentlyPlayedSong;
-    private String recentlyPlayedImage[]; 
+    private String recentlyPlayedImage; 
 
     public DiaryEntry() {
 
@@ -18,11 +23,13 @@ public class DiaryEntry {
 
     }
 
-    public DiaryEntry(String id, long date, String diaryText, String recentlyPlayedSong) {
+    public DiaryEntry(String id, long date, String diaryText,
+            String recentlyPlayedSong, String recentlyPlayedImage) {
         this.id = id;
         this.date = date;
         this.diaryText = diaryText;
         this.recentlyPlayedSong = recentlyPlayedSong;
+        this.recentlyPlayedImage = recentlyPlayedImage;
     }
 
     public String getId() {
@@ -55,6 +62,14 @@ public class DiaryEntry {
 
     public void setRecentlyPlayedSong(String recentlyPlayedSong) {
         this.recentlyPlayedSong = recentlyPlayedSong;
+    }
+
+    public String getRecentlyPlayedImage() {
+        return recentlyPlayedImage;
+    }
+
+    public void setRecentlyPlayedImage(String recentlyPlayedImage) {
+        this.recentlyPlayedImage = recentlyPlayedImage;
     } 
 
 }

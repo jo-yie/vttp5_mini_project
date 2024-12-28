@@ -13,11 +13,14 @@
         <strong th:text="${userLogin.username}"></strong>'s Diary Entry Saved
     </p>
 
-    <div>
-        <span th:text="${diaryEntry.diaryText}"></span>
-    </div>
+    <p>
+        Date: 
+        <span th:text="${#dates.format(new java.util.Date(diaryEntry.date), 'dd-MM-yyyy')}"></span>
+    </p>
 
     <a th:href="@{/diary/all}">See all diary entries</a>
+    <br/>
+    <a th:href="@{/logout}">Logout</a>
     
 </body>
 </html>

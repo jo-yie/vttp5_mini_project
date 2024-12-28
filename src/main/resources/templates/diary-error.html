@@ -3,14 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Logout</title>
+    <title>Diary Error</title>
 </head>
 <body>
 
-    <h1>Logout Successful</h1>
-    <h2>bai bai</h2>
+    <h1>diary-error.html</h1>
 
-    <a th:href="@{/}">Back to Home Page</a>
+    <p>
+        Diary entry on <span th:text="${date}"></span> does not exist.
+    </p>
     
 </body>
 </html>

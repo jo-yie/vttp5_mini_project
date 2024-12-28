@@ -27,6 +27,5 @@ public class DiaryRepo {
         return redisTemplate.opsForHash().values(username);
 
     }
-
     
 }

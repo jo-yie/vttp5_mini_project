@@ -1,6 +1,11 @@
 package vttp5_mini_project.service;
 
 import java.io.StringReader;
+import java.sql.Date;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -72,7 +77,8 @@ public class DiaryService {
                                         .add("id", diaryEntry.getId())
                                         .add("date", String.valueOf(diaryEntry.getDate()))
                                         .add("diaryText", diaryEntry.getDiaryText())
-                                        .add("recentlyPlayedSong", diaryEntry.getRecentlyPlayedSong()
+                                        .add("recentlyPlayedSong", diaryEntry.getRecentlyPlayedSong())
+                                        .add("recentlyPlayedImage", diaryEntry.getRecentlyPlayedImage()
                                         );
 
         JsonObject jObject = builder.build(); 
@@ -92,7 +98,8 @@ public class DiaryService {
             jo.getString("id"),
             Long.parseLong(jo.getString("date")),
             jo.getString("diaryText"), 
-            jo.getString("recentlyPlayedSong"));
+            jo.getString("recentlyPlayedSong"),
+            jo.getString("recentlyPlayedImage"));
 
         return diaryEntry; 
 
@@ -139,7 +146,7 @@ public class DiaryService {
     }
 
     // get recently played song cover art
-    public String[] getRecentlyPlayedSongImage(String accessToken) { 
+    public String getRecentlyPlayedSongImage(String accessToken) { 
 
         RestTemplate restTemplate = new RestTemplate(); 
 
@@ -163,14 +170,12 @@ public class DiaryService {
         // get most recent track 
         JSONObject firstItem = jsonItemsArray.getJSONObject(0);
         JSONObject track = firstItem.getJSONObject("track");
-        JSONArray images = track.getJSONArray("images");
+        JSONObject album = track.getJSONObject("album");
+        JSONArray images = album.getJSONArray("images");
 
-        String[] imageArray = new String[3]; 
-        for (int i = 0; i < 3; i++) { 
-            imageArray[i] = images.getString(i);
-        }
+        String image = images.getJSONObject(0).getString("url");
 
-        return imageArray;
+        return image;
 
     }
 
@@ -179,7 +184,7 @@ public class DiaryService {
 
         String userData = appRepo.getUserDataRedis(username);
 
-        UserLogin userLogin = jsonStringToPOJO(userData);
+        UserLogin userLogin = newJsonStringToPOJO(userData);
 
         String accessToken = userLogin.getAccessToken();
 
@@ -189,7 +194,7 @@ public class DiaryService {
 
     // helper method 
     // JSON Formatted String --> UserLogin POJO 
-    private UserLogin jsonStringToPOJO(String jsonData) { 
+    private UserLogin newJsonStringToPOJO(String jsonData) { 
 
         StringReader sr = new StringReader(jsonData); 
         JsonReader jr = Json.createReader(sr);
@@ -205,6 +210,71 @@ public class DiaryService {
         );
 
         return userLogin; 
+
+    }
+
+    // get diary entry with date dd-MM-yyyy
+    public DiaryEntry getDiaryEntryDate(String dateRequest, String username) {
+
+        List<DiaryEntry> diaryEntries = getAllDiaryEntriesFromRepo(username); 
+        
+        for (DiaryEntry entry: diaryEntries) { 
+
+            // convert entry.getDate() to String 
+            String dateFromRepo = convertMillisToDateString(entry.getDate());
+
+            if (dateRequest.equals(dateFromRepo)) { 
+
+                return entry;
+
+            }
+
+        }
+
+        return null;
+
+        // TODO entry at this date doesn't exist 
+
+    }
+
+    // check if diary entry for today's date exists 
+    public boolean diaryEntryTodayExists(String username) {
+
+        // today's date
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        LocalDate today = LocalDate.now();
+        String todayString = today.format(dtf); 
+
+        if (getDiaryEntryDate(todayString, username) != null) { 
+            return true;
+
+        }
+
+        return false;
+
+    }
+
+    // helper method 
+    // convert long millis --> String date 
+    private String convertMillisToDateString(long millis) {
+
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+
+        return Instant.ofEpochMilli(millis)
+                        .atZone(ZoneId.systemDefault())
+                        .toLocalDate()
+                        .format(dtf);
+
+    }
+
+    // helper method 
+    // convert String date --> long millis
+    private long convertDateToMillis(String dateString) {
+
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        LocalDate date = LocalDate.parse(dateString, dtf); 
+
+        return date.atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli();
 
     }
 

@@ -10,16 +10,14 @@
     <h1>callback.html</h1>
 
     <p>
-        Error logging in: <span th:text="${error}"></span>
-    </p>
-
-    <p>
         <span th:text="${userLogin.username}"></span> 
-        Successfully connected to Spotify account.
+        successfully connected to Spotify account.
     </p>
 
     <div>
         <a th:href="@{/diary/all}">See Diary Entries</a>
+        <br/>
+        <a th:href="@{/logout}">Logout</a>
     </div>
     
 </body>
