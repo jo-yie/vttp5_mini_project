@@ -47,8 +47,8 @@ public class AppController {
 
     }
 
-    @PostMapping("/home-existing-user")
-    public String getHomePage(@Valid @ModelAttribute UserLogin userLogin, BindingResult bindingResult, Model model, HttpSession session) {
+    @PostMapping("/existing-user")
+    public String getExistingUserPage(@Valid @ModelAttribute UserLogin userLogin, BindingResult bindingResult, Model model, HttpSession session) {
 
         if (bindingResult.hasErrors()) {
 
@@ -70,15 +70,13 @@ public class AppController {
 
         model.addAttribute("userLogin", userLogin);
 
-        // TODO check this works
-        // session.setAttribute
         session.setAttribute("currentUser", userLogin);
 
-        return "home-existing-user";
+        return "existing-user";
 
     }
 
-    @PostMapping("/home-new-user")
+    @PostMapping("/new-user")
     public String connectSpotify(@Valid @ModelAttribute UserLogin userLogin, BindingResult bindingResult, Model model, HttpSession session) {
 
         if (bindingResult.hasErrors()) {
@@ -98,13 +96,9 @@ public class AppController {
         // add username + password to redis
         appService.saveUserToRepo(userLogin);
 
-        // TODO check this works
-        // session.setAttribute
         session.setAttribute("currentUser", userLogin);
 
-        // TODO add button to connect to spotify 
-
-        return "home-new-user";
+        return "new-user";
 
     }
 
@@ -162,7 +156,6 @@ public class AppController {
 
             model.addAttribute("error", error);
             
-            // TODO create page 
             // redirect to spotify login 
             return "callback-failure";
 
