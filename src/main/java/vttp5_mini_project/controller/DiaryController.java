@@ -65,7 +65,7 @@ public class DiaryController {
     }
 
     @PostMapping("/created")
-    public String postDiaryEntry(@Valid @ModelAttribute DiaryEntry diaryEntry, BindingResult bindingResult, HttpSession session, Model model) {
+    public String postCreatedEntry(@Valid @ModelAttribute DiaryEntry diaryEntry, BindingResult bindingResult, HttpSession session, Model model) {
 
         UserLogin userLogin = (UserLogin) session.getAttribute("currentUser");
         String username = userLogin.getUsername();

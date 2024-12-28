@@ -12,6 +12,10 @@
     <p>
         Diary entry on <span th:text="${date}"></span> does not exist.
     </p>
+
+    <a th:href="@{/diary/all}">See all diary entries</a>
+    <br/>
+    <a th:href="@{/logout}">Logout</a>
     
 </body>
 </html>

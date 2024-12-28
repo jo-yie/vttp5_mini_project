@@ -48,7 +48,7 @@ public class AppController {
     }
 
     @PostMapping("/existing-user")
-    public String getExistingUserPage(@Valid @ModelAttribute UserLogin userLogin, BindingResult bindingResult, Model model, HttpSession session) {
+    public String postExistingUserPage(@Valid @ModelAttribute UserLogin userLogin, BindingResult bindingResult, Model model, HttpSession session) {
 
         if (bindingResult.hasErrors()) {
 
@@ -77,7 +77,7 @@ public class AppController {
     }
 
     @PostMapping("/new-user")
-    public String connectSpotify(@Valid @ModelAttribute UserLogin userLogin, BindingResult bindingResult, Model model, HttpSession session) {
+    public String postNewUserPage(@Valid @ModelAttribute UserLogin userLogin, BindingResult bindingResult, Model model, HttpSession session) {
 
         if (bindingResult.hasErrors()) {
 
