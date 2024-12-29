@@ -6,7 +6,7 @@ https://digital-diary.up.railway.app
 
 ---
 ### How to Test the App:
-This app uses the Spotify Web API, which limits access to registered email accounts.\n
+This app uses the Spotify Web API, which limits access to registered email accounts.
 The following dummy Spotify account is the only account that can be used for testing. 
 
 1. Login with the following credentials:
