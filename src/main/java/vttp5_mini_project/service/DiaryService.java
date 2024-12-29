@@ -15,8 +15,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import jakarta.json.Json;
@@ -126,9 +129,6 @@ public class DiaryService {
     // get recently played song 
     public String getRecentlyPlayedSong(String accessToken) { 
 
-        // TODO get new access token before making call 
-
-
         RestTemplate restTemplate = new RestTemplate(); 
 
         HttpHeaders headers = new HttpHeaders(); 
@@ -144,7 +144,6 @@ public class DiaryService {
         // no songs found
         if (jsonItemsArray.isEmpty()) { 
 
-            // TODO unchecked if works
             return "No recently played song";
 
         }
@@ -157,18 +156,6 @@ public class DiaryService {
         return songName;
 
     }
-
-    // TODO
-    // // helper method 
-    // // get new access token 
-    // private void getNewAccessToken(String username) { 
-
-    //     RestTemplate restTemplate = new RestTemplate(); 
-
-    //     HttpHeaders headers = new HttpHeaders(); 
-    //     headers.set("Authorization", "Basic " + )
-
-    // }
 
     // get recently played song cover art
     public String getRecentlyPlayedSongImage(String accessToken) { 
@@ -188,7 +175,6 @@ public class DiaryService {
         // no songs found
         if (jsonItemsArray.isEmpty()) { 
 
-            // TODO unchecked if works
             return "https://onlinepngtools.com/images/examples-onlinepngtools/64-megapixels.png";
 
         }
@@ -205,6 +191,35 @@ public class DiaryService {
 
     }
 
+    // helper method 
+    // check if token in redis is expired 
+    private boolean isTokenExpired(long expiryTime) {
+        return System.currentTimeMillis() > expiryTime;
+
+    }
+
+    // refresh access token 
+    public String refreshAccessToken(String refreshToken) {
+
+        RestTemplate restTemplate = new RestTemplate(); 
+
+        HttpHeaders headers = new HttpHeaders(); 
+        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        headers.setBasicAuth(clientId, clientSecret);
+
+        MultiValueMap<String, String> requestBody = new LinkedMultiValueMap<>();
+        requestBody.add("grant_type", "refresh_token");
+        requestBody.add("refresh_token", refreshToken);
+
+        HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(requestBody, headers);
+        ResponseEntity<String> response = restTemplate.exchange(tokenUrl, HttpMethod.POST, requestEntity, String.class);
+
+        JSONObject jsonResponse = new JSONObject(response.getBody());
+        return jsonResponse.getString("access_token");
+
+    }
+
+
     // get access token from redis 
     public String getAccessToken(String username) {
 
@@ -213,6 +228,17 @@ public class DiaryService {
         UserLogin userLogin = newJsonStringToPOJO(userData);
 
         String accessToken = userLogin.getAccessToken();
+
+        // check if access token is expired 
+        long expiry = userLogin.getTokenExpiry(); 
+
+        if (isTokenExpired(expiry)) {
+
+            // get new token 
+            String refreshToken = userLogin.getRefreshToken();
+            accessToken = refreshAccessToken(refreshToken);
+
+        }
 
         return accessToken;
 
@@ -291,16 +317,4 @@ public class DiaryService {
 
     }
 
-    // helper method 
-    // convert String date --> long millis
-    private long convertDateToMillis(String dateString) {
-
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-        LocalDate date = LocalDate.parse(dateString, dtf); 
-
-        return date.atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli();
-
-    }
-
-    
 }

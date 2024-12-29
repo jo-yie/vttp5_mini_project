@@ -47,6 +47,14 @@ public class AppController {
 
     }
 
+    // redirect to home if GET /existing-user request
+    @GetMapping("/existing-user")
+    public String getExistingUserPage() { 
+
+        return "redirect:/";
+
+    }
+
     @PostMapping("/existing-user")
     public String postExistingUserPage(@Valid @ModelAttribute UserLogin userLogin, BindingResult bindingResult, Model model, HttpSession session) {
 
@@ -73,6 +81,14 @@ public class AppController {
         session.setAttribute("currentUser", userLogin);
 
         return "existing-user";
+
+    }
+
+    // redirect to home if GET /new-user request
+    @GetMapping("/new-user")
+    public String getNewUserPage() { 
+
+        return "redirect:/";
 
     }
 
@@ -132,20 +148,12 @@ public class AppController {
         
     }
 
-    @GetMapping("/callback-failure-test")
-    public String test(HttpSession session, Model model) {
-
-        UserLogin userLogin = (UserLogin) session.getAttribute("currentUser");
-        model.addAttribute("userLogin", userLogin);
-
-        return "callback-failure";
-
-    }
-
     @GetMapping("/callback")
     public String getCallbackPage(@RequestParam(required = false) String code, 
                                     @RequestParam(required = false) String error, 
                                     Model model, HttpSession session) { 
+
+        System.out.println("auth code: " + code);
 
         UserLogin userLogin = (UserLogin) session.getAttribute("currentUser");
         model.addAttribute("userLogin", userLogin);

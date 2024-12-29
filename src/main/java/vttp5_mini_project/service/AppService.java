@@ -1,18 +1,13 @@
 package vttp5_mini_project.service;
 
 import java.io.StringReader;
-import java.util.LinkedHashMap;
-import java.util.Map;
 
-import org.apache.catalina.connector.Response;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -139,6 +134,7 @@ public class AppService {
         ResponseEntity<String> response = exchangeAuthorizationCode(code);
 
         JSONObject jsonResponse = new JSONObject(response.getBody());
+
         String accessToken = jsonResponse.getString("access_token");
         String refreshToken = jsonResponse.getString("refresh_token");
         long expiresIn = jsonResponse.getLong("expires_in");
@@ -244,10 +240,6 @@ public class AppService {
         return spotifyUsername;
 
     }
-
-    // TODO check if token is expired 
-
-    // TODO get new token 
 
     
 

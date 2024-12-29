@@ -61,6 +61,14 @@ public class DiaryController {
 
     }
 
+    // redirect to home if GET /diary/created request
+    @GetMapping("/created")
+    public String getExistingUserPage() { 
+
+        return "redirect:/";
+
+    }
+
     @PostMapping("/created")
     public String postCreatedEntry(@Valid @ModelAttribute DiaryEntry diaryEntry, BindingResult bindingResult, HttpSession session, Model model) {
 
