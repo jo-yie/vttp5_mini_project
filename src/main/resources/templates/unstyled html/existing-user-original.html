@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Existing User</title>
+</head>
+<body>
+    
+    <h1>existing-user.html</h1>
+
+    <p>
+        Successfully logged in as: <strong th:text="${userLogin.username}"></strong>
+        <br/>
+    </p>
+
+    <a th:href="@{/connect-spotify}">Connect to Spotify</a>
+    <br/>
+    <a th:href="@{/logout}">Logout</a>
+
+</body>
+</html>

@@ -2,44 +2,73 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>All Diary Entries</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Callback</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+    <!-- Custom styles for this template -->
+    <link href="/css/album.css" rel="stylesheet">
 </head>
 <body>
+  
+      <main role="main">
+  
+        <section class="jumbotron text-center">
+          <div class="container">
+            <h1 class="jumbotron-heading"><span th:text="${userLogin.username}"></span>'s Diary</h1>
+            <p class="lead text-muted">Create one new diary entry each day. Each entry is paired with your most recently played song on Spotify. No editing once an entry is submitted.</p>
+            <p>
+              <a th:href="@{/diary/create}" class="btn btn-primary my-2">Create a Diary Entry</a>
+              <!-- <a href="#" class="btn btn-secondary my-2">Read a Random Diary Entry</a> -->
+            </p>
+          </div>
+        </section>
+  
+        <div class="album py-5 bg-light">
+            <div class="container">
+        
+                <!-- Row for the diary entries -->
+                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+                    <!-- Loop through diary entries -->
+                    <div class="col" th:each="diaryEntry : ${diaryEntries}">
+                        <div class="card mb-4 box-shadow">
+                            <img class="card-img-top" th:src="${diaryEntry.recentlyPlayedImage}" alt="Album Cover Art">
+                            <div class="card-body">
+                                <p class="card-text">
+                                    <span th:text="${diaryEntry.diaryText}"></span>
+                                </p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="btn-group">
+                                        <a th:href="@{/diary/date/{date}(date=${#dates.format(new java.util.Date(diaryEntry.date), 'dd-MM-yyyy')})}" class="btn btn-sm btn-outline-secondary">View Diary Entry</a>
+                                    </div>
+                                    <small class="text-muted">
+                                        <span th:text="${#dates.format(new java.util.Date(diaryEntry.date), 'dd-MM-yyyy')}"></span>
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        
+            </div>
+        </div>
+        
+  
+      </main>
+
+    <footer class="text-muted text-center">
+        <div class="container">
+            <p class="float-right">
+                <a href="#">Back to top</a>
+                <br />
+                <a th:href="@{/logout}">Logout</a>
+            </p>
+        </div>
+    </footer>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     
-    <h1>diary-all.html</h1>
-
-    <div>
-        <strong th:text="${userLogin.username}"></strong>'s Diary Entries
-    </div>
-
-    <div> 
-        <a th:href="@{/diary/create}">Create a Diary Entry</a>
-    </div>
-
-    <table> 
-        <thead>
-            <tr>
-                <th>Date</th>
-                <th>Diary Text</th>
-                <th>Recently Played Song</th>
-                <th>Image</th>
-                <th>Link</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr th:each="diaryEntry : ${diaryEntries}">
-                <td th:text="${#dates.format(new java.util.Date(diaryEntry.date), 'dd-MM-yyyy')}"></td>
-                <td th:text="${diaryEntry.diaryText}"></td>
-                <td th:text="${diaryEntry.recentlyPlayedSong}"></td>
-                <td><img th:src="${diaryEntry.recentlyPlayedImage}" style="width:20px; height: 20px;"></td>
-                <td><a th:href="@{/diary/date/{date}(date=${#dates.format(new java.util.Date(diaryEntry.date), 'dd-MM-yyyy')})}">Link</a></td>
-            </tr>
-        </tbody>
-
-    </table>
-
-    <a th:href="@{/logout}">Logout</a>
-
 </body>
 </html>

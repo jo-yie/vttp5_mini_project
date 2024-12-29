@@ -132,6 +132,16 @@ public class AppController {
         
     }
 
+    @GetMapping("/callback-failure-test")
+    public String test(HttpSession session, Model model) {
+
+        UserLogin userLogin = (UserLogin) session.getAttribute("currentUser");
+        model.addAttribute("userLogin", userLogin);
+
+        return "callback-failure";
+
+    }
+
     @GetMapping("/callback")
     public String getCallbackPage(@RequestParam(required = false) String code, 
                                     @RequestParam(required = false) String error, 

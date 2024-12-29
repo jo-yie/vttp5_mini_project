@@ -1,0 +1,81 @@
+html,
+body {
+  height: 100%;
+}
+
+body {
+  display: -ms-flexbox;
+  display: -webkit-box;
+  display: flex;
+  -ms-flex-align: center;
+  -ms-flex-pack: center;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  justify-content: center;
+  padding-top: 40px;
+  padding-bottom: 40px;
+  background-color: #f5f5f5;
+
+  flex-direction: column;
+  min-height:100vh;
+}
+
+footer { 
+    margin-top: auto;
+}
+
+.content {
+    flex: 1;
+}
+
+.form-signin {
+  width: 100%;
+  max-width: 600px; /* Increase max-width to allow for more space */
+  padding: 15px;
+  margin: 0 auto;
+}
+
+.form-signin .form-group {
+  display: flex;
+  justify-content: space-between; /* Space between the image and textarea */
+  align-items: flex-start; /* Align them at the top */
+  gap: 20px; /* Optional: Adds space between image and text area */
+}
+
+.form-signin .recent-image {
+  flex-shrink: 0; /* Prevent the image from shrinking */
+}
+
+.form-signin .recent-image img {
+  width: 300px; /* Set image width */
+  height: 300px; /* Set image height */
+}
+
+.form-signin .flex-grow-1 {
+  flex-grow: 1; /* Allow text area to take up remaining space */
+}
+
+.form-signin .form-control {
+  position: relative;
+  box-sizing: border-box;
+  height: auto;
+  padding: 10px;
+  font-size: 16px;
+}
+
+.form-signin .form-control:focus {
+  z-index: 2;
+}
+
+.form-signin input[type="email"] {
+  margin-bottom: -1px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.form-signin input[type="password"] {
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}

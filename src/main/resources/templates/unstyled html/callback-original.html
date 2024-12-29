@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Callback</title>
+</head>
+<body>
+
+    <h1>callback.html</h1>
+
+    <p>
+        <span th:text="${userLogin.username}"></span> 
+        successfully connected to Spotify account.
+    </p>
+
+    <div>
+        <a th:href="@{/diary/all}">See Diary Entries</a>
+        <br/>
+        <a th:href="@{/logout}">Logout</a>
+    </div>
+    
+</body>
+</html>

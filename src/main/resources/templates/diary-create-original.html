@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Diary Entry</title>
+</head>
+<body>
+
+    <h1>diary-create.html</h1>
+
+    <div>
+        
+        <p>
+            Id: <strong th:text="${diaryEntry.id}"></strong>
+        </p>
+
+        <p>
+            Date: 
+            <span th:text="${#dates.format(new java.util.Date(diaryEntry.date), 'dd-MM-yyyy')}"></span>
+        </p>
+        
+        <p>
+            Recently played song: <strong th:text="${diaryEntry.recentlyPlayedSong}"></strong>
+        </p>
+
+        <div>
+            <img th:src="${diaryEntry.recentlyPlayedImage}" 
+            style="width:300px; height: 300px;">
+        </div>
+
+    </div>
+
+    <form method="POST" th:action="@{/diary/created}" th:object="${diaryEntry}">
+
+        <!-- Hidden field for recentlyPlayedSong -->
+        <input type="hidden" th:field="*{recentlyPlayedSong}" />
+
+        <!-- Hidden field for recentlyPlayedImage -->
+        <input type="hidden" th:field="*{recentlyPlayedImage}" />
+
+        <div>
+            <label for="diaryText">Diary Text</label>
+            <textarea id="diaryText" rows="20" cols="50" th:field="*{diaryText}" placeholder="Diary Text"></textarea>
+        </div>
+
+        <div th:if="${#fields.hasErrors('diaryText')}" th:errors="*{diaryText}"></div>
+
+        <button type="submit">Submit Diary Entry</button>
+
+    </form>
+
+    <a th:href="@{/diary/all}">See all diary entries</a>
+    <br/>
+    <a th:href="@{/logout}">Logout</a>
+    
+</body>
+</html>

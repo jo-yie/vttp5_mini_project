@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Diary Entries</title>
+</head>
+<body>
+    
+    <h1>diary-all.html</h1>
+
+    <div>
+        <strong th:text="${userLogin.username}"></strong>'s Diary Entries
+    </div>
+
+    <div> 
+        <a th:href="@{/diary/create}">Create a Diary Entry</a>
+    </div>
+
+    <table> 
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Diary Text</th>
+                <th>Recently Played Song</th>
+                <th>Image</th>
+                <th>Link</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="diaryEntry : ${diaryEntries}">
+                <td th:text="${#dates.format(new java.util.Date(diaryEntry.date), 'dd-MM-yyyy')}"></td>
+                <td th:text="${diaryEntry.diaryText}"></td>
+                <td th:text="${diaryEntry.recentlyPlayedSong}"></td>
+                <td><img th:src="${diaryEntry.recentlyPlayedImage}" style="width:20px; height: 20px;"></td>
+                <td><a th:href="@{/diary/date/{date}(date=${#dates.format(new java.util.Date(diaryEntry.date), 'dd-MM-yyyy')})}">Link</a></td>
+            </tr>
+        </tbody>
+
+    </table>
+
+    <a th:href="@{/logout}">Logout</a>
+
+</body>
+</html>

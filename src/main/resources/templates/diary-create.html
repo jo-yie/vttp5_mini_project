@@ -2,36 +2,35 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    
     <title>Create Diary Entry</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+    <!-- Custom styles for this template -->
+    <link href="/css/diary.css" rel="stylesheet">
 </head>
-<body>
+<body class="text-center">
 
-    <h1>diary-create.html</h1>
+    <div class="content">
 
-    <div>
-        
-        <p>
-            Id: <strong th:text="${diaryEntry.id}"></strong>
-        </p>
+    <form class="form-signin" 
+            method="POST"
+            th:action="@{/diary/created}" 
+            th:object="${diaryEntry}">
+
+        <img class="mb-4" src="https://getbootstrap.com/docs/4.0/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
+        <h1 class="h3 mb-3 font-weight-normal">Create Diary Entry</h1>
 
         <p>
             Date: 
             <span th:text="${#dates.format(new java.util.Date(diaryEntry.date), 'dd-MM-yyyy')}"></span>
         </p>
-        
+
         <p>
             Recently played song: <strong th:text="${diaryEntry.recentlyPlayedSong}"></strong>
         </p>
-
-        <div>
-            <img th:src="${diaryEntry.recentlyPlayedImage}" 
-            style="width:300px; height: 300px;">
-        </div>
-
-    </div>
-
-    <form method="POST" th:action="@{/diary/created}" th:object="${diaryEntry}">
 
         <!-- Hidden field for recentlyPlayedSong -->
         <input type="hidden" th:field="*{recentlyPlayedSong}" />
@@ -39,20 +38,40 @@
         <!-- Hidden field for recentlyPlayedImage -->
         <input type="hidden" th:field="*{recentlyPlayedImage}" />
 
-        <div>
-            <label for="diaryText">Diary Text</label>
-            <textarea id="diaryText" rows="20" cols="50" th:field="*{diaryText}" placeholder="Diary Text"></textarea>
+        <div class="d-flex justify-content-between align-items-start mb-4">
+            <!-- Recently Played Image -->
+            <div class="recent-image">
+                <img th:src="${diaryEntry.recentlyPlayedImage}" style="width:308px; height: 308px;" alt="Album Image">
+            </div>
+
+            <!-- Diary Text Area -->
+            <div class="flex-grow-1 ms-3">
+                <textarea id="diaryText" class="form-control" rows="12" cols="50" th:field="*{diaryText}" placeholder="Diary Text"></textarea>
+                <div th:if="${#fields.hasErrors('diaryText')}" class="alert alert-danger" role="alert" th:errors="*{diaryText}"></div>
+            </div>
         </div>
 
-        <div th:if="${#fields.hasErrors('diaryText')}" th:errors="*{diaryText}"></div>
+        <br />
 
-        <button type="submit">Submit Diary Entry</button>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Create Diary Entry</button>
 
     </form>
 
-    <a th:href="@{/diary/all}">See all diary entries</a>
-    <br/>
-    <a th:href="@{/logout}">Logout</a>
+    </div>
+
+    <!-- FIX THIS TODO -->
+    <footer class="text-muted text-center">
+        <div class="container">
+            <p class="float-right">
+                <br />
+                <a th:href="@{/diary/all}">Back to all diary entries</a>
+                <br />
+                <a th:href="@{/logout}">Logout</a>
+            </p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     
 </body>
 </html>

@@ -67,6 +67,9 @@ public class DiaryController {
         UserLogin userLogin = (UserLogin) session.getAttribute("currentUser");
         String username = userLogin.getUsername();
 
+        model.addAttribute("userLogin", userLogin);
+        model.addAttribute("diaryEntry", diaryEntry);
+
         if (bindingResult.hasErrors()) { 
             return "diary-create";
 
@@ -80,9 +83,6 @@ public class DiaryController {
         }
 
         diaryService.saveDiaryEntryToRepo(userLogin.getUsername(), diaryEntry);
-
-        model.addAttribute("userLogin", userLogin);
-        model.addAttribute("diaryEntry", diaryEntry);
 
         return "diary-created";
 
