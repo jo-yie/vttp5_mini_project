@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diary Entry</title>
+</head>
+<body>
+
+    <h1>diary-entry.html</h1>
+
+    <table> 
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Diary Text</th>
+                <th>Recently Played Song</th>
+                <th>Image</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td th:text="${#dates.format(new java.util.Date(diaryEntry.date), 'dd-MM-yyyy')}"></td>
+                <td th:text="${diaryEntry.diaryText}"></td>
+                <td th:text="${diaryEntry.recentlyPlayedSong}"></td>
+                <td><img th:src="${diaryEntry.recentlyPlayedImage}" style="width:20px; height: 20px;"></td>
+            </tr>
+        </tbody>
+
+    </table>
+
+    <a th:href="@{/diary/all}">See all diary entries</a>
+    <br/>
+    <a th:href="@{/logout}">Logout</a>
+    
+</body>
+</html>

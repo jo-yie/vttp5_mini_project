@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diary Entry Created</title>
+</head>
+<body>
+
+    <h1>diary-created.html</h1>
+
+    <p>
+        <strong th:text="${userLogin.username}"></strong>'s Diary Entry Saved
+    </p>
+
+    <p>
+        Date: 
+        <span th:text="${#dates.format(new java.util.Date(diaryEntry.date), 'dd-MM-yyyy')}"></span>
+    </p>
+
+    <a th:href="@{/diary/all}">See all diary entries</a>
+    <br/>
+    <a th:href="@{/logout}">Logout</a>
+    
+</body>
+</html>

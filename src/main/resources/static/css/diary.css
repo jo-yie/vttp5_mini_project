@@ -79,3 +79,17 @@ footer {
   border-top-left-radius: 0;
   border-top-right-radius: 0;
 }
+
+.diary-text-container {
+    max-width: 300px; /* Restrict container width */
+    margin: 0 auto; /* Center-align the container */
+    text-align: left; /* Align text inside */
+}
+
+.diary-text {
+    max-width: 100%; /* Restrict the text block width to its container */
+    word-break: break-word; /* Break long words */
+    overflow-wrap: break-word; /* Ensure proper word wrapping */
+    white-space: normal; /* Allow text to wrap naturally */
+}
+

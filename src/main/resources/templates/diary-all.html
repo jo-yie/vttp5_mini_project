@@ -17,10 +17,11 @@
         <section class="jumbotron text-center">
           <div class="container">
             <h1 class="jumbotron-heading"><span th:text="${userLogin.username}"></span>'s Diary</h1>
+            <br />
             <p class="lead text-muted">Create one new diary entry each day. Each entry is paired with your most recently played song on Spotify. No editing once an entry is submitted.</p>
             <p>
               <a th:href="@{/diary/create}" class="btn btn-primary my-2">Create a Diary Entry</a>
-              <!-- <a href="#" class="btn btn-secondary my-2">Read a Random Diary Entry</a> -->
+
             </p>
           </div>
         </section>
